@@ -19,7 +19,7 @@ app.get("/repositories", (request, response) => {
 app.post("/repositories", (request, response) => {
   const {title, url, techs, likes} = request.body;
 
-  const respository = {id: uuid(), title,  url, techs, likes};
+  const respository = {id: uuid(), title,  url, techs, likes: 0};
 
   repositories.push(respository);
 
@@ -28,27 +28,25 @@ app.post("/repositories", (request, response) => {
 });
 
 app.put("/repositories/:id", (request, response) => {
-  const {id} = request.params;
-  const {title, url, techs} = request.body;
+  const { id } = request.params
+  const { url, title, techs } = request.body
 
-  const respositoryIndex = repositories.findIndex(respository => respository.id === id);
+  const repositoryIndex = repositories.findIndex(
+    (repository) => repository.id === id
+  )
 
-  if(respositoryIndex < 0){
-    return response.status(400).json({error: 'Repository not found'})
+  if (repositoryIndex < 0) {
+    return response.status(400).json({ message: "Repository not found." })
   }
 
-  const repository  = {
-    id,
-    title, 
-    url,
-    techs,
-  }
+  const repository = repositories[repositoryIndex]
 
-  repositories[respositoryIndex] = repository;
+  const updatedRepository = { ...repository, url, title, techs }
 
-  return response.json(repository);
-  // TODO
-});
+  repositories[repositoryIndex] = { ...updatedRepository }
+
+  return response.status(200).json(updatedRepository)
+})
 
 app.delete("/repositories/:id", (request, response) => {
   const {id} = request.params;
