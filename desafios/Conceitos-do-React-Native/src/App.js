@@ -141,6 +141,6 @@ const styles = StyleSheet.create({
     marginRight: 10,
     color: "#fff",
     backgroundColor: "#7159c1",
-    padding: 15,
+    padding: 14,
   },
 })
